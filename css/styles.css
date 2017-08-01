@@ -31,6 +31,7 @@ html {
   display:inline-block;
 }
 .overlay-arrow {
+  cursor:pointer;
   vertical-align: top;
   font-size:3em;
   padding:0 50px;
@@ -75,6 +76,7 @@ html {
 }
 
 .arrowDown {
+  cursor:pointer;
   transition:300ms
 }
 
@@ -96,7 +98,7 @@ html {
 .nav-logo {
   height:100%;
   width:65px;
-  /*background:orange;*/
+  margin-left:10px;
   display: inline-block;
 }
 
@@ -104,11 +106,12 @@ html {
   height:100%;
   width: 100%;
   transition: 300ms;
+  opacity:.9
 }
 
 .nav-bar img:hover {
-  opacity:.75;
-  transition: 300ms
+  transition: 300ms;
+  opacity:1;
 }
 
 .nav-items {
@@ -230,6 +233,15 @@ a {
   margin-bottom: 20px;
 }
 
+#indexGallery h1 a {
+  transition: 300ms;
+}
+
+#indexGallery h1 a:hover {
+  color:seagreen;
+  transition:300ms;
+}
+
 #indexGallery img {
   background-repeat: no-repeat;
   /*background-position: center;*/
@@ -258,7 +270,8 @@ a {
   border-radius: 3px;
 }
 
-.col-3 .info {
+.info {
+  cursor:pointer;
   position: relative;
   vertical-align: top;
   width: 100%;
@@ -270,7 +283,7 @@ a {
   text-align: center;
 }
 
-.col-3 .info:hover {
+.info:hover {
   opacity:1;
   transition: 300ms;
 }
@@ -351,6 +364,14 @@ hr {
 }
 
 #backToTop {
+  cursor:pointer;
   text-align: center;
   margin:10px;
+}
+/*#backToTop span {
+  color:blue;
+}*/
+#backToTop span:hover {
+  color:seagreen;
+  transition:300ms;
 }

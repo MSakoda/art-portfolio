@@ -3,6 +3,8 @@ console.log("scripts.js loaded");
 
 $(document).ready(function(){
 
+  var overlayType = ""
+
   function scrollTo(anchor){
       $('html, body').animate({
           scrollTop: $("#"+anchor).offset().top
@@ -46,16 +48,21 @@ $(document).ready(function(){
     ["leoDiCaprioMarcusSakoda.jpeg","Leonardo DiCaprio"]
   ]
 
+  var commissions = [["familyCommission.jpg","Family Commission"],["cuteKidCommission.jpg","Cute Kid Commission"]],
+      commissionsArray = []
+
+
   //put images into an array
   for (var i = 0; i < images.length; i ++ ) {
     galleryArray.push("../images/"+images[i][0])
   }
+  for (var i = 0; i < commissions.length; i ++ ) {
+    commissionsArray.push("../images/"+commissions[i][0])
+  }
 
-  // var indexGallery = $('#indexGallery')
-  // console.log("indexGallery is:",indexGallery);
   var cols = $("#indexGallery .col-3")
   var imgInfos = $("#indexGallery .info")
-  var infoPs = $(".info p")
+  var infoPs = $("#indexGallery .info p")
   for (var i = 0; i < cols.length; i++){
     cols[i].style.backgroundImage = `url("${galleryArray[i]}")`
     cols[i].style.backgroundPosition = 'center'
@@ -65,10 +72,23 @@ $(document).ready(function(){
     $(infoPs[i]).html(images[i][1])
   }
 
+  var commissionCols   = $('#commissionDiv .col-3'),
+      commissionInfos  = $("#commissionDiv .info"),
+      commissionInfoPs = $("#commissionDiv .info p")
+  for (var i = 0; i < commissionCols.length; i++ ) {
+    commissionCols[i].style.backgroundImage = `url("${commissionsArray[i]}")`
+    commissionCols[i].style.backgroundPosition = 'center'
+    commissionCols[i].style.backgroundSize = ` 100%`
+    commissionCols[i].style.backgroundRepeat = `no-repeat`
+    var info = commissionInfos[i];
+    $(commissionInfoPs[i]).html(commissions[i][1])
+  }
+
   var overlay = false;
   var currentPic
 
-  $('.col-3').on("click",function(){
+  $('#indexGallery .col-3').on("click",function(){
+    overlayType = "gallery"
     var val = $(this).attr("value")
     currentPic = val
     $('.overlay-image').attr("src","../images/"+images[currentPic][0])
@@ -81,25 +101,57 @@ $(document).ready(function(){
     $(".overlay-arrow").css("line-height",$(".overlay-image-container").height()+"px")
   })
 
+  $('#commissionDiv .col-3').on("click",function(){
+    overlayType = "commissions"
+    var val = $(this).attr("value")
+    currentPic = val
+    $('.overlay-image').attr("src","../images/"+commissions[currentPic][0])
+
+    $(".overlay-image-description").text(`${commissions[val][1]}`)
+
+    $(".overlay").fadeIn()
+    overlay = true;
+
+    $(".overlay-arrow").css("line-height",$(".overlay-image-container").height()+"px")
+  })
+
   $(".close-overlay").on("click",function(){
     overlay = false;
+    overlayType = ""
     $(".overlay").fadeOut()
   })
 
   $(".overlay").hide()
 
+
   function nextPic(){
-    if (currentPic < 5) {
+
+    var pics = []
+    var piclength = 0;
+
+    if (overlayType == "gallery") {
+      pics = images;
+      piclength = 5;
+    }
+
+    if (overlayType == "commissions") {
+      pics = commissions
+      piclength = 1
+    }
+
+
+    if (currentPic < piclength) {
       currentPic ++ ;
     } else {
       currentPic = 0;
     }
+
     $(".overlay-image").fadeOut(100,function(){
-      $('.overlay-image').attr("src","../images/"+images[currentPic][0])
+      $('.overlay-image').attr("src","../images/"+pics[currentPic][0])
       $(".overlay-image").fadeIn()
     })
     $(".overlay-image-description").fadeOut(100,function(){
-      $('.overlay-image-description').text(images[currentPic][1])
+      $('.overlay-image-description').text(pics[currentPic][1])
       $('.overlay-image-description').fadeIn()
     })
   }
@@ -134,6 +186,7 @@ $(document).ready(function(){
     if (e.keyCode == 27 && overlay == true) {
        $(".overlay").fadeOut();
        overlay = false;
+       overlayType = ""
     }
 
     //left
